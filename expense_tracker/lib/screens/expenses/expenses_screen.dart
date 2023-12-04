@@ -1,6 +1,7 @@
-import 'package:expense_tracker/widgets/new_expense/new_expense.dart';
-import 'package:expense_tracker/widgets/expenses_list/expenses_list.dart';
 import 'package:expense_tracker/domain/models/expense.dart';
+import 'package:expense_tracker/widgets/chart/chart.dart';
+import 'package:expense_tracker/widgets/expenses_list/expenses_list.dart';
+import 'package:expense_tracker/widgets/new_expense/new_expense.dart';
 import 'package:flutter/material.dart';
 
 class ExpensesScreen extends StatefulWidget {
@@ -25,6 +26,38 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       category: Category.food,
     ),
   ];
+
+  @override
+  Widget build(BuildContext context) {
+    Widget content = const Center(
+      child: Text('No expenses yet, try adding some.'),
+    );
+
+    if (_registerdExpenses.isNotEmpty) {
+      content = ExpensesList(
+          expenses: _registerdExpenses, removeExpense: _onRemoveExpense);
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Expense Tracker'),
+        actions: [
+          IconButton(
+            onPressed: _openAddExpenseOverlay,
+            icon: const Icon(Icons.add),
+          )
+        ],
+      ),
+      body: Column(
+        children: [
+          Chart(expenses: _registerdExpenses),
+          Expanded(
+            child: content,
+          ),
+        ],
+      ),
+    );
+  }
 
   void _onAddExpense(Expense expense) {
     setState(() {
@@ -64,37 +97,5 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         builder: (ctx) => NewExpense(
               addExpense: _onAddExpense,
             ));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Widget content = const Center(
-      child: Text('No expenses yet, try adding some.'),
-    );
-
-    if (_registerdExpenses.isNotEmpty) {
-      content = ExpensesList(
-          expenses: _registerdExpenses, removeExpense: _onRemoveExpense);
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Expense Tracker'),
-        actions: [
-          IconButton(
-            onPressed: _openAddExpenseOverlay,
-            icon: const Icon(Icons.add),
-          )
-        ],
-      ),
-      body: Column(
-        children: [
-          const Text('This is a chart'),
-          Expanded(
-            child: content,
-          ),
-        ],
-      ),
-    );
   }
 }
