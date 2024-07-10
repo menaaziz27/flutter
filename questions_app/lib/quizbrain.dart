@@ -1,7 +1,6 @@
 import 'question.dart';
 
 class QuizBrain {
-
   int _questionNumber = 0;
 
   List<Question> _questionBank = [
@@ -34,25 +33,25 @@ class QuizBrain {
         a: true),
   ];
 
-  void increamentScore() {
-    if(_questionNumber < _questionBank.length - 1) {
-      _questionNumber++;
-    }
+  bool getQuestionAnswer() {
+    return _questionBank[_questionNumber].questionAnswer;
   }
 
   String getQuestionText() {
     return _questionBank[_questionNumber].questionText;
   }
 
-  bool getQuestionAnswer () {
-    return _questionBank[_questionNumber].questionAnswer;
+  void increamentScore() {
+    if (_questionNumber < _questionBank.length - 1) {
+      _questionNumber++;
+    }
   }
 
   bool isFinished() {
     return _questionNumber == _questionBank.length - 1;
   }
 
-  void resetQuestionNumber () {
+  void resetQuestionNumber() {
     _questionNumber = 0;
   }
 }

@@ -14,7 +14,8 @@ void main() {
       // theme: ThemeData.dark(), // ThemeData().light()
       theme: defaultTheme, // this is how you override flutter styles
       darkTheme: darkTheme,
-      // themeMode: ThemeMode.system, // control whether it should be a light or dark theme and this is the default
+      themeMode: ThemeMode
+          .dark, // control whether it should be a light or dark theme and this is the default
       home: const ExpensesScreen(),
     ),
   );

@@ -27,6 +27,48 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     ),
   ];
 
+  void _onAddExpense(Expense expense) {
+    setState(() {
+      _registerdExpenses.add(expense);
+    });
+  }
+
+  void _onRemoveExpense(Expense expense) {
+    final expenseIndex = _registerdExpenses.indexOf(expense);
+
+    setState(() {
+      _registerdExpenses.remove(expense);
+    });
+
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Expense deleted'),
+        duration: const Duration(
+          seconds: 3,
+        ),
+        action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {
+              setState(() {
+                _registerdExpenses.insert(expenseIndex, expense);
+              });
+            }),
+      ),
+    );
+  }
+
+  void _openAddExpenseOverlay() {
+    showModalBottomSheet(
+      useSafeArea: true,
+      isScrollControlled: true, // takes all available height
+      context: context,
+      builder: (ctx) => NewExpense(
+        addExpense: _onAddExpense,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -67,48 +109,6 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                 child: content,
               ),
             ]),
-    );
-  }
-
-  void _onAddExpense(Expense expense) {
-    setState(() {
-      _registerdExpenses.add(expense);
-    });
-  }
-
-  void _onRemoveExpense(Expense expense) {
-    final expenseIndex = _registerdExpenses.indexOf(expense);
-
-    setState(() {
-      _registerdExpenses.remove(expense);
-    });
-
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Expense deleted'),
-        duration: const Duration(
-          seconds: 3,
-        ),
-        action: SnackBarAction(
-            label: 'Undo',
-            onPressed: () {
-              setState(() {
-                _registerdExpenses.insert(expenseIndex, expense);
-              });
-            }),
-      ),
-    );
-  }
-
-  void _openAddExpenseOverlay() {
-    showModalBottomSheet(
-      useSafeArea: true,
-      isScrollControlled: true, // takes all available height
-      context: context,
-      builder: (ctx) => NewExpense(
-        addExpense: _onAddExpense,
-      ),
     );
   }
 }

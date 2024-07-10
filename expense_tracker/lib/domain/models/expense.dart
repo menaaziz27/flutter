@@ -17,11 +17,11 @@ enum Category { work, travel, leisure, food }
 
 class Expense {
   final String id;
-
   final String title;
   final double amount;
   final DateTime date;
   final Category category;
+
   Expense(
       {required this.title,
       required this.amount,
